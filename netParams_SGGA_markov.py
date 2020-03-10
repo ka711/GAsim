@@ -55,12 +55,4 @@ netParams.stimTargetParams['Input->testSG_pop'] = {'source': 'Input', 'sec':'som
 
 ########################################
 
-########################################
-## ADD in STIMULATION SOURCE (IClamp) to SG neurons with 
-netParams.stimSourceParams['Input'] = {'type': 'IClamp', 'del': 10, 'dur': 10, 'amp':0.5}   # original = {'type': 'IClamp', 'del': 50, 'dur': 5, 'amp':0.5}
-#netParams.stimTargetParams['Input->SG_pop'] = {'source': 'Input', 'sec':'soma', 'loc': 0.5, 'conds': {'pop':'SG_pop'}}
-netParams.stimTargetParams['Input->testSG_pop'] = {'source': 'Input', 'sec':'soma', 'loc': 0.5, 'conds': {'pop':'testSG_pop'}}
-
-########################################
-
 
