@@ -27,10 +27,10 @@ def evaluate_netparams(candidates, args):
 
     for icand,cand in enumerate(candidates):
         # modify network params based on this candidate params (genes)
-        #netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na11a']['gbar']    = cand[0]
-        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na12a']['gbar']    = cand[0]
-        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na13a']['gbar']    = cand[1]
-        #netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na16a']['gbar']    = cand[3]
+        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na11a']['gbar']    = cand[0]
+        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na12a']['gbar']    = cand[1]
+        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na13a']['gbar']    = cand[2]
+        netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na16a']['gbar']    = cand[3]
         netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['KDRI']['gkbar']    = cand[2]
 
         # create network
@@ -105,8 +105,8 @@ targetFiring = 20
 
 # min and max allowed value for each param optimized:
 #                 na11a, na12, na13, na16, KDRI
-minParamValues = [0.01, 0.01, 0.01]
-maxParamValues = [10,   10, 10]
+minParamValues = [0.005, 0.005, 0.005, 0.005, 0.02]
+maxParamValues = [10,   10,   10,   10,   40]
 
 # instantiate evolutionary computation algorithm with random seed
 my_ec = ec.EvolutionaryComputation(rand)
@@ -127,7 +127,7 @@ my_ec.observer = [ec.observers.stats_observer,  # print evolutionary computation
                   ec.observers.plot_observer,   # plot output of the evolutionary computation as graph
                   ec.observers.best_observer]   # print the best individual in the population to screen
 
-'''
+''' script for the csv file
 projdir = os.path.dirname(os.getcwd())
 stat_file_name = '{0}/myDHN_SCS/GAstat/ec_statistics.csv'.format(projdir)
 ind_file_name  = '{0}/myDHN_SCS/GAstat/ec_individuals.csv'.format(projdir)
@@ -147,13 +147,13 @@ def openFiles2SaveStats(self):
 #call evolution iterator
 final_pop = my_ec.evolve(generator=generate_netparams,  # assign design parameter generator to iterator parameter generator
                       evaluator=evaluate_netparams,     # assign fitness function to iterator evaluator
-                      pop_size=50,       #1000               # original 10 # each generation of parameter sets will consist of 10 individuals
+                      pop_size=100,       #1000               # original 10 # each generation of parameter sets will consist of 10 individuals
                       maximize=False,                   # best fitness corresponds to minimum value
                       bounder=ec.Bounder(minParamValues, maxParamValues), # boundaries for parameter set ([probability, weight, delay])
-                      max_evaluations=250,     #5000         # original 50 # evolutionary algorithm termination at 50 evaluations
+                      max_evaluations=500,     #5000         # original 50 # evolutionary algorithm termination at 50 evaluations
                       num_selected=50,      #1000            # original 10 # number of generated parameter sets to be selected for next generation
                       mutation_rate=0.2,                # original 0.2 # rate of mutation
-                      num_inputs=3,                     # len([na11a, na12, na13a, na16])
+                      num_inputs=5,                     # len([na11a, na12, na13a, na16])
                       num_elites=1, #10
                       #statistics_file = stat_file,
                       #indiduals_file = ind_file
@@ -170,10 +170,9 @@ pylab.show()
 final_pop.sort(reverse=True)                            # sort final population so best fitness (minimum difference) is first in list
 bestCand = final_pop[0].candidate                       # bestCand <-- individual @ start of list
 cfg.analysis['plotRaster'] = False            # plotting
-#netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na11a']['gbar']    = bestCand[0]
-netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na12a']['gbar']    = bestCand[0]
-netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na13a']['gbar']    = bestCand[1]
-#netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na16a']['gbar']    = bestCand[3]
-netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['KDRI']['gkbar']    = bestCand[2]
+netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na11a']['gbar']    = bestCand[0]
+netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na12a']['gbar']    = bestCand[1]
+netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na13a']['gbar']    = bestCand[2]
+netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['na16a']['gbar']    = bestCand[3]
+netParams_SGGA_markov.SGcellRule['secs']['soma']['mechs']['KDRI']['gkbar']    = bestCand[4]
 sim.createSimulateAnalyze(netParams=netParams_SGGA_markov.netParams, simConfig=cfg)   # run simulation of best candidate
-

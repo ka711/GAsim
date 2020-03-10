@@ -3,22 +3,20 @@ from netpyne.specs import Dict, ODict
 
 cfg = specs.SimConfig()	                          # object of class SimConfig to store simulation configuration
 
+cfg.KDRI    = 0.30#0.52
 
-## Nav conductivity
+# variables for markov channels
+cfg.na11a   = 0.01 #0.05     #0.001    #0.002             
+cfg.na12a   = 0.01     #0.01335 is the best for alone     #0.03
+cfg.na13a   = 0.189     #0.189 best #0.188    #0.007
+cfg.na16a   = 0.01     #0.001    #0.002
+
+## Nav conductivity for other Nav channels (not used now)
 #cfg.nascale = 0.23
 cfg.na11   = 0.02#0.002              # Nav1.1, 1.2, 1.3, 1.6 : 1:5:5:1 in wister rat expression
 cfg.na12   = 30
 cfg.na13   = 7  #0.007
 cfg.na16   = 2#0.002
-
-cfg.KDRI    = 0.30#0.52
-
-# variables for markov channels
-cfg.na11a   = 0 #0.05     #0.001    #0.002             
-cfg.na12a   = 0     #0.01335 is the best for alone     #0.03
-cfg.na13a   = 0.189     #0.189 best #0.188    #0.007
-cfg.na16a   = 0     #0.001    #0.002
-
 
 # Duration of stimulus
 cfg.stim_amp = 0.01
