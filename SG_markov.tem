@@ -1,0 +1,75 @@
+begintemplate SG_test //This is "SG Cell" and "SGSCS Cell"
+
+//From Melnick et al. J. Physiol (2004) Modified by Tianhe C. Zhang (tz5@duke.edu).
+
+ndend=1
+
+public soma, hillock, axon, dend
+public synlist, x, y, z, position, connect2target
+objref synlist, syn_
+create soma, hillock, axon, dend
+
+
+proc init(){
+access soma
+{diam=10 L=10 nseg=10} // area 100 um2 means mA/cm2 identical to nA 
+insert na11a
+insert na12a
+insert na13a
+insert na16a
+insert B_A
+insert B_DR
+insert KDR
+insert KDRI
+insert pas
+{gbar_na11a = 1 gbar_na12a = 1 gbar_na13a = 1 gbar_na16a = 1 ena = 60 g_pas = 1.1e-05 e_pas = -65 gkbar_KDRI = 0.52 ek = -84}   // default gnabar_ina2005 = 0.008
+//{ena = 60 g_pas = 1.1e-05 e_pas = -70 gkbar_KDRI = 0.0043 ek = -84}
+access hillock
+{L=30 nseg=30 dsoma=1 daxon=0.5 diam(0:1)=dsoma:daxon} 
+insert na11a
+insert na12a
+insert na13a
+insert na16a
+insert B_A
+insert B_DR
+insert KDR
+insert KDRI
+insert pas
+{gbar_na11a = 1 gbar_na12a = 1 gbar_na13a = 1 gbar_na16a = 1 ena = 60 g_pas = 1.1e-05 e_pas = -70 gkbar_KDRI = 9.0 ek = -84} // Tonic firing with maintained I-F characteristics.// default gnabar_ina2005 = 3.45
+//{ena = 60 g_pas = 1.1e-05 e_pas = -70 gkbar_KDRI = 0.076 ek = -84}
+
+access axon //Stump to measure AP propagation.  No other purpose.
+{diam=0.001 L=0.001 nseg=50}
+insert na11a
+insert na12a
+insert na13a
+insert na16a
+insert B_A
+insert B_DR
+insert KDR
+insert KDRI
+insert pas
+{gbar_na11a = 0 gbar_na12a = 0 gbar_na13a = 0 gbar_na16a = 0 ena = 60 g_pas = 0 e_pas = -70 gkbar_KDRI = 0 ek = -84}
+//{ena = 60 g_pas = 0 e_pas = -70 gkbar_KDRI = 0 ek = -84}
+
+access dend
+{nseg=50 diam=1.4 L = 1371}
+insert SS
+insert B_DR
+insert KDR
+insert KDRI	
+insert pas
+{gnabar_SS = 0 ena = 60 g_pas = 1.1e-05 e_pas = -70 gkbar_KDRI = 3.3 ek = -84}
+//{gnabar_SS = 0 ena = 60 g_pas = 1.1e-05 e_pas = -70 gkbar_KDRI = 0.034 ek = -84}
+
+soma connect hillock(0),1
+hillock connect axon(0),1
+soma connect dend(0),0
+
+forall Ra = 80 
+
+x = y = z = 0
+
+}
+
+endtemplate SG_test
