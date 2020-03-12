@@ -1,14 +1,6 @@
-#import netParams_SG # import parameters file
-#import netParams_SGGA # import parameters file
-import netParams_SGGA_markov # import parameters file
-
-import cfg
-
 from netpyne import sim  # import netpyne init module
 from neuron import h
 
-#simConfig, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsDefault='netParams_SG.py')
-#simConfig, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsDefault='netParams_SGGA.py')
 simConfig, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsDefault='netParams_SGGA_markov.py')
 
 ###############################################################################
@@ -17,24 +9,20 @@ simConfig, netParams = sim.readCmdLineArgs(simConfigDefault='cfg.py', netParamsD
 sim.createSimulateAnalyze(netParams = netParams, simConfig = simConfig)
 
 
-## load the SG neuron profile ##
+## Plot comparison to original
 import json
-#data = open('model_output_ori_ina_10ms.json', 'rb')
-data = open('./data/original/NaV_0.json', 'rb')
-data = json.load(data)
-
 import matplotlib.pyplot as plt
 
-data = open('./data/original/NaV_0.json', 'rb')
-data = json.load(data)
+with open('./data/original/NaV_0.json', 'rb') as f:
+    data = json.load(f)
 
+plt.figure(figsize = (10,6))
 plt.plot(data['simData']['t'], data['simData']['V_soma']['cell_0'], label = 'V_soma_B_Na', linestyle = 'dotted')
 plt.plot(sim.simData['t'], sim.simData['V_soma']['cell_0'], label = 'V_soma_Na1.3a', linewidth = 2)
 plt.xlabel('Time(ms)')
 plt.ylabel('voltage (mV)')
-
 plt.legend()
-plt.show()
+plt.savefig(simConfig.saveFolder+'/'+simConfig.simLabel)
 
 
 # sum_curr = []

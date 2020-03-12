@@ -43,23 +43,23 @@ def batchEvol():
 
         
     # create Batch object with paramaters to modify, and specifying files to use
-    b = Batch(params=params)
+    b = Batch(params=params, cfgFile='cfg.py', netParamsFile='netParams_SGGA_markov.py')
     
     # Set output folder, grid method (all param combinations), and run configuration
     b.batchLabel = 'na_evol'
-    b.saveFolder = './'+b.batchLabel
+    b.saveFolder = 'data/'+b.batchLabel
     b.method = 'evol'
     b.runCfg = {
         'type': 'mpi_bulletin',#'hpc_slurm', 
         'script': 'init_SG.py',
-        # options required only for hpc
-        'mpiCommand': 'mpirun',  
-        'nodes': 1,
-        'coresPerNode': 2,
-        'allocation': 'default',
-        'email': 'salvadordura@gmail.com',
-        'reservation': None,
-        'folder': '/home/salvadord/evol'
+        ## options required only for hpc
+        # 'mpiCommand': 'mpirun',  
+        # 'nodes': 1,
+        # 'coresPerNode': 2,
+        # 'allocation': 'default',
+        # 'email': 'salvadordura@gmail.com',
+        # 'reservation': None,
+        # 'folder': '/home/salvadord/evol'
         #'custom': 'export LD_LIBRARY_PATH="$HOME/.openmpi/lib"' # only for conda users
     }
     b.evolCfg = {
@@ -73,7 +73,7 @@ def batchEvol():
         'maximize': False, # maximize fitness function?
         'max_generations': 2,
         'time_sleep': 5, # wait this time before checking again if sim is completed (for each generation)
-        'maxiter_wait': 40, # max number of times to check if sim is completed (for each generation)
+        'maxiter_wait': 40, # 40 * 5 sec = 200sec; max number of times to check if sim is completed (for each generation)
         'defaultFitness': 10000 # set fitness value in case simulation time is over
     }
     # Run batch simulations

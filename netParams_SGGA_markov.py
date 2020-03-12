@@ -42,7 +42,7 @@ netParams.cellParams['SGRule_test' ] = SGcellRule
 
 ########################################
 ## ADD in STIMULATION SOURCE (IClamp) to SG and SGtest neurons
-netParams.stimSourceParams['Input'] = {'type': 'IClamp', 'del': 10, 'dur': cfg.stim_dur, 'amp':0.0}
+netParams.stimSourceParams['Input'] = {'type': 'IClamp', 'del': 10, 'dur': 100, 'amp':0.0}
 netParams.stimTargetParams['Input->testSG_pop'] = {'source': 'Input', 'sec':'soma', 'loc': 0.5, 'conds': {'pop':'testSG_pop'}}
 
 ########################################
