@@ -66,14 +66,14 @@ def batchEvol():
         'evolAlgorithm': 'custom',
         'fitnessFunc': fitnessFunc, # fitness expression (should read simData)
         'fitnessFuncArgs': fitnessFuncArgs,
-        'pop_size': 2,
+        'pop_size': 40,
         'num_elites': 1, # keep this number of parents for next generation if they are fitter than children
         'mutation_rate': 0.4,
         'crossover': 0.5,
         'maximize': False, # maximize fitness function?
-        'max_generations': 2,
-        'time_sleep': 5, # wait this time before checking again if sim is completed (for each generation)
-        'maxiter_wait': 40, # 40 * 5 sec = 200sec; max number of times to check if sim is completed (for each generation)
+        'max_generations': 100,
+        'time_sleep': 20, # wait this time before checking again if sim is completed (for each generation)
+        'maxiter_wait': 15, # 40 * 5 sec = 200sec; max number of times to check if sim is completed (for each generation)
         'defaultFitness': 10000 # set fitness value in case simulation time is over
     }
     # Run batch simulations
